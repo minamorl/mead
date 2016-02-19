@@ -19,7 +19,3 @@ def serve(router):
         loop.run_forever()
     except KeyboardInterrupt:
         loop.run_until_complete(handler.finish_connections())
-
-
-if __name__ == '__main__':
-    serve(router)
