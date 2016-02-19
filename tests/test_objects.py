@@ -1,4 +1,4 @@
-from mead import Resource, Result
+from mead.objects import Resource, Result, Context
 
 
 class SampleAPI(Resource):
@@ -19,14 +19,14 @@ class SampleAPI(Resource):
         pass
 
 api = SampleAPI()
-context = mead.objects.Context({
+context = Context({
     "session": None,
     "params": [("hi", "foo")]
 })
 
 
 def test_api_get():
-    result = mead.objects.Result({
+    result = Result({
         "hi": "foo"
     })
     assert result == api.get(context)
