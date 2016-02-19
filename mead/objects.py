@@ -39,8 +39,8 @@ class Router():
         self.i = 0
         self.route = []
 
-    def add_route(self, method, path, obj, wrapper):
-        self.route.append((method, path, functools.partial(wrapper, obj=obj)))
+    def add_route(self, method, path, obj):
+        self.route.append((method, path, obj))
 
         
     def __iter__(self):
@@ -55,7 +55,7 @@ class Router():
             raise StopIteration
 
 
-async def text_response(request, obj):
+async def text_response(s):
     resp = aiohttp.web.Response()
-    resp.body = obj(request).encode("utf8")
+    resp.body = s.encode("utf8")
     return resp
