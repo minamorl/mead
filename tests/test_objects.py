@@ -1,11 +1,11 @@
-from mead.objects import Resource, Result, Context
+from mead.objects import Resource, Response, Context
 
 class SampleAPI(Resource):
 
     obj = None
 
     def get(self, ctx):
-        result = Result({
+        result = Response({
             "hi": self.obj,
         })
         return result
@@ -31,7 +31,7 @@ context = Context({
 
 def test_api_get():
     api.post(context)
-    assert Result({
+    assert Response({
         "hi": "foo"
     }) == api.get(context)
 

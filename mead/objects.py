@@ -24,9 +24,35 @@ class Context(dict):
     pass
 
 
-class Result(dict):
+class Response(dict):
     pass
 
 
 class Session(dict):
     pass
+
+class Router():
+
+        
+    def __init__(self):
+        self.i = 0
+        self.route = []
+
+    def add_route(self, method, path, obj, wrapper):
+        self.route.append(method, path, functools.partial(wrapper, obj=obj))
+
+        
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        try:
+            return [self.i]
+        except AttributeError:
+            raise StopIteration
+
+
+async def text_response(request, obj):
+    resp = aiohttp.web.Response()
+    obj(request)
+    return resp
