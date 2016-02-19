@@ -1,21 +1,21 @@
 from mead.objects import Resource, Result, Context
 
-
 class SampleAPI(Resource):
 
+    obj = None
+
     def get(self, ctx):
-        message = ctx["params"]["hi"]
-        message = message + "!"
         result = Result({
-            "hi": message,
+            "hi": self.obj,
         })
         return result
 
     def delete(self, ctx):
-        pass
+        del self.obj
 
     def post(self, ctx):
-        pass
+        message = ctx["params"]["hi"]
+        self.obj = message
 
     def put(self, ctx):
         pass
@@ -30,7 +30,9 @@ context = Context({
 
 
 def test_api_get():
-    result = Result({
-        "hi": "foo!"
-    })
-    assert result == api.get(context)
+    api.post(context)
+    assert Result({
+        "hi": "foo"
+    }) == api.get(context)
+
+

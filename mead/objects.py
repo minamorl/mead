@@ -3,19 +3,19 @@ from abc import ABCMeta, abstractmethod
 class Resource(metaclass=ABCMeta):
     """ Interface for user"""
     @abstractmethod
-    def put(self, ctx):
+    def put(self, ctx=None):
         pass
 
     @abstractmethod
-    def get(self, ctx):
+    def get(self, ctx=None):
         pass
 
     @abstractmethod
-    def delete(self, ctx):
+    def delete(self, ctx=None):
         pass
 
     @abstractmethod
-    def post(self, ctx):
+    def post(self, ctx=None):
         pass
 
 class Context(dict):
