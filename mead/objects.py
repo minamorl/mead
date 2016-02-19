@@ -33,8 +33,9 @@ class Response(dict):
 class Session(dict):
     pass
 
+
 class Router():
-        
+
     def __init__(self):
         self.i = 0
         self.route = []
@@ -42,7 +43,6 @@ class Router():
     def add_route(self, method, path, obj):
         self.route.append((method, path, obj))
 
-        
     def __iter__(self):
         return self
 
