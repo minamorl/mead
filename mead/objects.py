@@ -40,6 +40,7 @@ class Router():
     def add_resource(self, resource):
         if resource.path is None:
             raise NotPathFoundError
+        resource = resource()
             
         self.add_route("GET", resource.path, resource.get)
         self.add_route("POST", resource.path, resource.post)
