@@ -1,4 +1,6 @@
 from abc import ABCMeta, abstractmethod
+import functools
+import aiohttp
 
 
 class Resource(metaclass=ABCMeta):
@@ -32,14 +34,13 @@ class Session(dict):
     pass
 
 class Router():
-
         
     def __init__(self):
         self.i = 0
         self.route = []
 
     def add_route(self, method, path, obj, wrapper):
-        self.route.append(method, path, functools.partial(wrapper, obj=obj))
+        self.route.append((method, path, functools.partial(wrapper, obj=obj)))
 
         
     def __iter__(self):
@@ -47,12 +48,14 @@ class Router():
 
     def __next__(self):
         try:
-            return [self.i]
-        except AttributeError:
+            result = self.route[self.i]
+            self.i += 1
+            return result
+        except IndexError:
             raise StopIteration
 
 
 async def text_response(request, obj):
     resp = aiohttp.web.Response()
-    obj(request)
+    resp.body = obj(request).encode("utf8")
     return resp
