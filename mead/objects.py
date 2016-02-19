@@ -1,7 +1,8 @@
 from abc import ABCMeta, abstractmethod
 
+
 class Resource(metaclass=ABCMeta):
-    """ Interface for user"""
+    """Interface for user"""
     @abstractmethod
     def put(self, ctx=None):
         pass
@@ -18,11 +19,14 @@ class Resource(metaclass=ABCMeta):
     def post(self, ctx=None):
         pass
 
+
 class Context(dict):
     pass
 
+
 class Result(dict):
     pass
+
 
 class Session(dict):
     pass
