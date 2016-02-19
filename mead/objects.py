@@ -23,3 +23,6 @@ class Context(dict):
 
 class Result(dict):
     pass
+
+class Session(dict):
+    pass

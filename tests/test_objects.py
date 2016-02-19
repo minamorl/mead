@@ -4,8 +4,10 @@ from mead.objects import Resource, Result, Context
 class SampleAPI(Resource):
 
     def get(self, ctx):
+        message = ctx["params"]["hi"]
+        message = message + "!"
         result = Result({
-            "hi": "foo"
+            "hi": message,
         })
         return result
 
@@ -21,12 +23,14 @@ class SampleAPI(Resource):
 api = SampleAPI()
 context = Context({
     "session": None,
-    "params": [("hi", "foo")]
+    "params": {
+        "hi": "foo",
+    },
 })
 
 
 def test_api_get():
     result = Result({
-        "hi": "foo"
+        "hi": "foo!"
     })
     assert result == api.get(context)
