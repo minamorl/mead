@@ -22,18 +22,6 @@ class Resource(metaclass=ABCMeta):
         pass
 
 
-class Context(dict):
-    pass
-
-
-class Response(dict):
-    pass
-
-
-class Session(dict):
-    pass
-
-
 class Router():
 
     def __init__(self):
