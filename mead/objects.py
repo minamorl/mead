@@ -1,6 +1,8 @@
 from abc import ABCMeta, abstractmethod
 import functools
 import aiohttp
+import aiohttp.web
+import json
 
 
 class Resource(metaclass=ABCMeta):
@@ -34,6 +36,14 @@ class Router():
         self.i = 0
         self.route = []
 
+    def route(path, method="GET"):
+        def wrapper(func):
+            def _wrapper(*args, **kwargs):
+                return func(*args, **kwargs)
+            return _wrapper
+        return wrapper
+
+
     def add_route(self, method, path, obj):
         self.route.append((method, path, obj))
 
@@ -59,7 +69,13 @@ class Router():
             raise StopIteration
 
 
-async def text_response(s):
+def text_response(s):
     resp = aiohttp.web.Response()
     resp.body = s.encode("utf8")
+    return resp
+
+
+def json_response(dct):
+    resp = aiohttp.web.Response()
+    resp.body = json.dumps(dct).encode("utf8")
     return resp
