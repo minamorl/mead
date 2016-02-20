@@ -2,7 +2,7 @@ from abc import ABCMeta, abstractmethod
 import functools
 import aiohttp
 import aiohttp.web
-import json
+import ujson
 import aiohttp_session
 
 
@@ -23,7 +23,7 @@ def _(s):
 @response.register(JSONObject)
 def _(dct):
     resp = aiohttp.web.Response()
-    resp.body = json.dumps(dct).encode("utf8")
+    resp.body = ujson.dumps(dct).encode("utf8")
     resp.content_type = "application/json"
     return resp
 
