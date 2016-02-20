@@ -3,6 +3,11 @@ import functools
 import aiohttp
 import aiohttp.web
 import json
+import aiohttp_session
+
+
+class JSONObject(dict):
+    pass
 
 @functools.singledispatch
 def response(body):
@@ -15,7 +20,7 @@ def _(s):
     resp.body = s.encode("utf8")
     return resp
 
-@response.register(dict)
+@response.register(JSONObject)
 def _(dct):
     resp = aiohttp.web.Response()
     resp.body = json.dumps(dct).encode("utf8")
@@ -23,6 +28,17 @@ def _(dct):
     return resp
 
     
+class Context(dict):
+    pass
+
+def create_context(request):
+    return Context({
+        "session": aiohttp_session.get_session(request),
+        "params":  request.post(),
+        "query": request.get(),
+    })
+
+
 class Resource(metaclass=ABCMeta):
     """Interface for user"""
 
@@ -68,7 +84,11 @@ class Router():
 
 
     def add_route(self, method, path, obj):
-        self._route.append((method, path, obj))
+        def wrapped(request):
+            context = create_context(request)
+            return obj(request)
+
+        self._route.append((method, path, wrapped))
 
     def add_resource(self, resource):
         if resource.path is None:

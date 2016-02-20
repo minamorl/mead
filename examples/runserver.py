@@ -1,11 +1,13 @@
-import mead.server
+from mead.server import serve
 from mead.objects import *
 
-def helloworld(request):
-    return response({"results":"Hello, world"})
-
 router = Router()
-router.add_route("GET", "/", helloworld)
+
+@router.route("/")
+def helloworld(context):
+    username = context["query"]["username"]
+    print(type(context))
+    return response(JSONObject({"results":"Hello"}))
 
 if __name__ == '__main__':
-    mead.server.serve(router)
+    serve(router)

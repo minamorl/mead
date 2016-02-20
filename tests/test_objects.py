@@ -9,20 +9,22 @@ def test_str_response():
 
 
 def test_json_response():
-    sample_dict1 = {
+    sample_dict1 = JSONObject({
         "this": {
             "is": {
                 "a": "test"
             }
         }
-    }
+    })
     resp = response(sample_dict1)
     assert sample_dict1 == json.loads(resp.body.decode("utf8"))
 
 
 def test_router_route():
     router = Router()
-    async def sample_callable(requests):
-        return resp
+
+    def sample_callable(requests):
+        return "Hello, World"
+
     sample_callable = router.route("/")(sample_callable)
     assert len(list(r for r in router)) == 1

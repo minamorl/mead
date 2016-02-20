@@ -5,3 +5,4 @@ redis==2.10.3
 wrapt
 redis-orm
 aiohttp
+aiohttp_session
