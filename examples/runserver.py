@@ -3,11 +3,13 @@ from mead.objects import *
 
 router = Router()
 
-@router.route("/")
 def helloworld(context):
-    username = context["query"]["username"]
-    print(type(context))
-    return response(JSONObject({"results":"Hello"}))
+    print(context)
+    return response(JSONObject({
+        "results":"Hello"
+    }))
 
+router.add_route("GET", "/", helloworld)
+router.add_route("POST", "/", helloworld)
 if __name__ == '__main__':
     serve(router)

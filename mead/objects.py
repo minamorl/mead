@@ -3,7 +3,6 @@ import functools
 import aiohttp
 import aiohttp.web
 import json
-import aiohttp_session
 
 
 class JSONObject(dict):
@@ -29,13 +28,16 @@ def _(dct):
 
     
 class Context(dict):
-    pass
+    def params(self, s):
+        return NotImplementedError
 
-def create_context(request):
+    def query(self, s):
+        return NotImplementedError
+
+async def create_context(request):
     return Context({
-        "session": aiohttp_session.get_session(request),
-        "params":  request.post(),
-        "query": request.get(),
+        "params":  await request.post(),
+        "query": request.GET,
     })
 
 
@@ -45,19 +47,19 @@ class Resource(metaclass=ABCMeta):
     path = None
 
     @abstractmethod
-    def put(self, ctx=None):
+    async def put(self, ctx=None):
         pass
 
     @abstractmethod
-    def get(self, ctx=None):
+    async def get(self, ctx=None):
         pass
 
     @abstractmethod
-    def delete(self, ctx=None):
+    async def delete(self, ctx=None):
         pass
 
     @abstractmethod
-    def post(self, ctx=None):
+    async def post(self, ctx=None):
         pass
 
 
@@ -79,14 +81,14 @@ class Router():
             def _wrapper(*args, **kwargs):
                 return func(*args, **kwargs)
             return _wrapper
-        self._route.append((method, path, wrapper))
+        self.add_route(method, path, wrapper)
         return wrapper
 
 
     def add_route(self, method, path, obj):
-        def wrapped(request):
-            context = create_context(request)
-            return obj(request)
+        async def wrapped(request):
+            context = await create_context(request)
+            return obj(context)
 
         self._route.append((method, path, wrapped))
 

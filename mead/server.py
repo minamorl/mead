@@ -1,10 +1,9 @@
 import aiohttp.web
 import asyncio
-import aiohttp_session
 import functools
 
 
-async def init(loop, router, session_encrypt_key):
+async def init(loop, router):
     app = aiohttp.web.Application(loop=loop)
 
     handler = app.make_handler()
@@ -14,7 +13,7 @@ async def init(loop, router, session_encrypt_key):
     return srv, handler
 
 
-def serve(router):
+def serve(router, session_encrypt_key=b"aab32gab32gab32gab32gab3225gb32g"):
     print("Starting http://127.0.0.1:8080")
     loop = asyncio.get_event_loop()
     srv, handler = loop.run_until_complete(init(loop, router))
