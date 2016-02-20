@@ -30,7 +30,7 @@ setup(
     install_requires = [],
     author = "minamorl",
     author_email = "minamorl@minamorl.com",
-    description = "setup",
+    description = "Flexible aiohttp Web Framework",
     tests_require=['tox'],
     cmdclass={'test': Tox},
 )
