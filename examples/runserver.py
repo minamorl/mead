@@ -1,8 +1,8 @@
 from mead.server import Mead
-from mead.objects import *
+from mead.objects import Router, response, JSONObject
 
 router = Router()
-mead = Mead()
+mead = Mead(router=router)
 
 @router.route("/", methods=["GET"])
 def helloworld(context):
@@ -11,4 +11,4 @@ def helloworld(context):
     }))
 
 if __name__ == '__main__':
-    mead.serve(router)
+    mead.serve()
