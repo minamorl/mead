@@ -33,19 +33,20 @@ class NotPathFoundError(Exception):
 class Router():
 
     def __init__(self):
-        self.i = 0
-        self.route = []
+        self._i = 0
+        self._route = []
 
-    def route(path, method="GET"):
+    def route(self, path, method="GET"):
         def wrapper(func):
             def _wrapper(*args, **kwargs):
                 return func(*args, **kwargs)
             return _wrapper
+        self._route.append((method, path, wrapper))
         return wrapper
 
 
     def add_route(self, method, path, obj):
-        self.route.append((method, path, obj))
+        self._route.append((method, path, obj))
 
     def add_resource(self, resource):
         if resource.path is None:
@@ -62,8 +63,8 @@ class Router():
 
     def __next__(self):
         try:
-            result = self.route[self.i]
-            self.i += 1
+            result = self._route[self._i]
+            self._i += 1
             return result
         except IndexError:
             raise StopIteration
