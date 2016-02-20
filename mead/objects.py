@@ -76,12 +76,17 @@ class Router():
         return self._route == other._route
 
 
-    def route(self, path, method="GET"):
+    def route(self, path, methods=["GET"]):
         def wrapper(func):
+            @functools.wraps(func)
             def _wrapper(*args, **kwargs):
                 return func(*args, **kwargs)
+            _methods = methods
+            if not isinstance(methods, list):
+                _methods = [methods]
+            for method in _methods:
+                self.add_route(method, path, _wrapper)
             return _wrapper
-        self.add_route(method, path, wrapper)
         return wrapper
 
 

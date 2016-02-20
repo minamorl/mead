@@ -2,15 +2,18 @@
 Flexible aiohttp Web Server
 
 ```python
-import mead.server
-import mead.objects
+from mead.server import serve
+from mead.objects import *
 
-async def helloworld(request):
-    return await mead.objects.text_response("Hello, world")
+router = Router()
 
-router = mead.objects.Router()
-router.add_route("GET", "/", helloworld)
+@router.route("/", methods=["GET"])
+def helloworld(context):
+    print(context)
+    return response(JSONObject({
+        "results":"Hello"
+    }))
 
 if __name__ == '__main__':
-    mead.server.serve(router)
+    serve(router)
 ```
