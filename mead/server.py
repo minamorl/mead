@@ -12,6 +12,10 @@ class Mead():
         self.router = router
         self.session_encrypt_key = session_encrypt_key
 
+    def __call__(self):
+        """Make gunicorn compatible"""
+        return self.app
+
     async def init(self, loop, address, port):
         handler = self.app.make_handler()
         for method, path, obj in self.router:
