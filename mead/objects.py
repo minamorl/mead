@@ -83,4 +83,5 @@ def text_response(s):
 def json_response(dct):
     resp = aiohttp.web.Response()
     resp.body = json.dumps(dct).encode("utf8")
+    resp.content_type = "application/json"
     return resp
