@@ -4,7 +4,25 @@ import aiohttp
 import aiohttp.web
 import json
 
+@functools.singledispatch
+def response(body):
+    pass
 
+
+@response.register(str)
+def _(s):
+    resp = aiohttp.web.Response()
+    resp.body = s.encode("utf8")
+    return resp
+
+@response.register(dict)
+def _(dct):
+    resp = aiohttp.web.Response()
+    resp.body = json.dumps(dct).encode("utf8")
+    resp.content_type = "application/json"
+    return resp
+
+    
 class Resource(metaclass=ABCMeta):
     """Interface for user"""
 
@@ -73,15 +91,3 @@ class Router():
         except IndexError:
             raise StopIteration
 
-
-def text_response(s):
-    resp = aiohttp.web.Response()
-    resp.body = s.encode("utf8")
-    return resp
-
-
-def json_response(dct):
-    resp = aiohttp.web.Response()
-    resp.body = json.dumps(dct).encode("utf8")
-    resp.content_type = "application/json"
-    return resp

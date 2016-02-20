@@ -1,10 +1,10 @@
 import mead.server
-import mead.objects
+from mead.objects import *
 
-async def helloworld(request):
-    return await mead.objects.text_response("Hello, world")
+def helloworld(request):
+    return response({"results":"Hello, world"})
 
-router = mead.objects.Router()
+router = Router()
 router.add_route("GET", "/", helloworld)
 
 if __name__ == '__main__':

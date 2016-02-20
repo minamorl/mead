@@ -3,6 +3,11 @@ import json
 from mead.objects import *
 
 
+def test_str_response():
+    sample_str = "test"
+    assert response(sample_str).body == b"test"
+
+
 def test_json_response():
     sample_dict1 = {
         "this": {
@@ -11,7 +16,7 @@ def test_json_response():
             }
         }
     }
-    resp = json_response(sample_dict1)
+    resp = response(sample_dict1)
     assert sample_dict1 == json.loads(resp.body.decode("utf8"))
 
 
