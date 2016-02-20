@@ -5,22 +5,30 @@ import aiohttp_session
 import aiohttp_session.cookie_storage
 
 
-async def init(loop, router, session_encrypt_key):
-    app = aiohttp.web.Application(loop=loop)
+class Mead():
 
-    handler = app.make_handler()
-    for method, path, obj in router:
-        app.router.add_route(method, path, obj)
-    srv = await loop.create_server(handler, '127.0.0.1', 8080)
-    aiohttp_session.setup(app, aiohttp_session.cookie_storage.EncryptedCookieStorage(session_encrypt_key))
-    return srv, handler
+    def __init__(self, router=None, session_encrypt_key=None):
+        self.app = aiohttp.web.Application()
+        self.router = router
+        self.session_encrypt_key = session_encrypt_key
 
 
-def serve(router, session_encrypt_key=b"aab32gab32gab32gab32gab3225gb32g"):
-    print("Starting http://127.0.0.1:8080")
-    loop = asyncio.get_event_loop()
-    srv, handler = loop.run_until_complete(init(loop, router, session_encrypt_key))
-    try:
-        loop.run_forever()
-    except KeyboardInterrupt:
-        loop.run_until_complete(handler.finish_connections())
+    async def init(self, loop, address, port):
+        handler = self.app.make_handler()
+        for method, path, obj in self.router:
+            self.app.router.add_route(method, path, obj)
+        srv = await loop.create_server(handler, address, port)
+        aiohttp_session.setup(self.app, aiohttp_session.cookie_storage.EncryptedCookieStorage(self.session_encrypt_key))
+        return srv, handler
+
+
+    def serve(self, port=8080, address="127.0.0.1"):
+        print("Starting on http://{}:{}".format(address, port))
+        loop = asyncio.get_event_loop()
+        self.app._loop = loop
+
+        srv, handler = loop.run_until_complete(self.init(loop, address, port))
+        try:
+            loop.run_forever()
+        except KeyboardInterrupt:
+            loop.run_until_complete(handler.finish_connections())
