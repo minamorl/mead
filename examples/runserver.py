@@ -5,7 +5,6 @@ router = Router()
 
 @router.route("/", methods=["GET"])
 def helloworld(context):
-    print(context)
     return response(JSONObject({
         "results":"Hello"
     }))

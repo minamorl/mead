@@ -3,6 +3,7 @@ import functools
 import aiohttp
 import aiohttp.web
 import json
+import aiohttp_session
 
 
 class JSONObject(dict):
@@ -28,16 +29,14 @@ def _(dct):
 
     
 class Context(dict):
-    def params(self, s):
-        return NotImplementedError
-
-    def query(self, s):
-        return NotImplementedError
+    pass
 
 async def create_context(request):
+    session = await aiohttp_session.get_session(request)
     return Context({
         "params":  await request.post(),
         "query": request.GET,
+        "session": session,
     })
 
 
@@ -117,4 +116,3 @@ class Router():
             return result
         except IndexError:
             raise StopIteration
-
