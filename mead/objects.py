@@ -36,6 +36,10 @@ class Router():
         self._i = 0
         self._route = []
 
+    def __eq__(self, other):
+        return self._route == other._route
+
+
     def route(self, path, method="GET"):
         def wrapper(func):
             def _wrapper(*args, **kwargs):
