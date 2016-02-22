@@ -65,15 +65,7 @@ class Resource(metaclass=ABCMeta):
 class NotPathFoundError(Exception):
     pass
 
-class Router():
-
-    def __init__(self):
-        self._i = 0
-        self._route = []
-
-    def __eq__(self, other):
-        return self._route == other._route
-
+class Router(list):
 
     def route(self, path, methods=["GET"]):
         def wrapper(func):
@@ -94,7 +86,7 @@ class Router():
             context = await create_context(request)
             return obj(context)
 
-        self._route.append((method, path, wrapped))
+        self.append((method, path, wrapped))
 
     def add_resource(self, resource):
         if resource.path is None:
@@ -105,14 +97,3 @@ class Router():
         self.add_route("POST", resource.path, resource.post)
         self.add_route("PUT", resource.path, resource.put)
         self.add_route("DELETE", resource.path, resource.delete)
-
-    def __iter__(self):
-        return self
-
-    def __next__(self):
-        try:
-            result = self._route[self._i]
-            self._i += 1
-            return result
-        except IndexError:
-            raise StopIteration
