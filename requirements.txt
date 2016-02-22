@@ -7,3 +7,4 @@ redis-orm
 aiohttp
 aiohttp_session
 ujson
+cryptography

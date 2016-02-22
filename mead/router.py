@@ -12,7 +12,7 @@ class Router(list):
     def append(self, obj):
         if not isinstance(obj, Route):
             raise RoutingException
-        super(Router, self).append()
+        super(Router, self).append(obj)
 
     def route(self, path, methods=["GET"]):
         def wrapper(func):
