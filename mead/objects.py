@@ -4,14 +4,14 @@ import ujson
 import abc
 
 
-class ResponsableObject(abc.ABC):
+class ResponseObject(abc.ABC):
 
     @abc.abstractmethod
     def to_response():
         pass
 
 
-class JSONObject(dict, ResponsableObject):
+class JSONObject(dict, ResponseObject):
 
     def to_response(self):
         resp = aiohttp.web.Response()
@@ -20,7 +20,7 @@ class JSONObject(dict, ResponsableObject):
         return resp
 
 
-class HTMLString(str, ResponsableObject):
+class HTMLString(str, ResponseObject):
 
     def to_response(self):
         resp = aiohttp.web.Response()
