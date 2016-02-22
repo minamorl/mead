@@ -1,3 +1,4 @@
+import aiohttp.web
 import functools
 from .objects import ResponseObject
 
