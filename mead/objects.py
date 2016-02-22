@@ -40,28 +40,6 @@ async def create_context(request):
     })
 
 
-class Resource(metaclass=ABCMeta):
-    """Interface for user"""
-
-    path = None
-
-    @abstractmethod
-    async def put(self, ctx=None):
-        pass
-
-    @abstractmethod
-    async def get(self, ctx=None):
-        pass
-
-    @abstractmethod
-    async def delete(self, ctx=None):
-        pass
-
-    @abstractmethod
-    async def post(self, ctx=None):
-        pass
-
-
 class NotPathFoundError(Exception):
     pass
 
@@ -87,13 +65,3 @@ class Router(list):
             return obj(context)
 
         self.append((method, path, wrapped))
-
-    def add_resource(self, resource):
-        if resource.path is None:
-            raise NotPathFoundError
-        resource = resource()
-            
-        self.add_route("GET", resource.path, resource.get)
-        self.add_route("POST", resource.path, resource.post)
-        self.add_route("PUT", resource.path, resource.put)
-        self.add_route("DELETE", resource.path, resource.delete)
