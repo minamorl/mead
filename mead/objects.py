@@ -9,15 +9,24 @@ import aiohttp_session
 class JSONObject(dict):
     pass
 
+class HTMLString(str):
+    pass
+
 @functools.singledispatch
 def response(body):
     pass
-
 
 @response.register(str)
 def _(s):
     resp = aiohttp.web.Response()
     resp.body = s.encode("utf8")
+    return resp
+
+@response.register(HTMLString)
+def _(s):
+    resp = aiohttp.web.Response()
+    resp.body = s.encode("utf8")
+    resp.content_type = "text/html"
     return resp
 
 @response.register(JSONObject)
@@ -27,7 +36,6 @@ def _(dct):
     resp.content_type = "application/json"
     return resp
 
-    
 class Context(dict):
     pass
 
