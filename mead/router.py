@@ -1,6 +1,7 @@
 import functools
 import collections
 from .context import create_context
+from .exceptions import RoutingException
 
 
 Route = collections.namedtuple("Route", ["method", "path", "object"])

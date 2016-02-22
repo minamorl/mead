@@ -1,5 +1,5 @@
 import functools
-from .objects import ResponsableObject
+from .objects import ResponseObject
 
 
 @functools.singledispatch
@@ -14,6 +14,6 @@ def _(s):
     return resp
 
 
-@response.register(ResponsableObject)
+@response.register(ResponseObject)
 def _(obj):
     return obj.to_response()
