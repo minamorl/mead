@@ -1,13 +1,12 @@
 import aiohttp_session
+import collections
 
 
-class Context(dict):
-    pass
+Context = collections.namedtuple("Context", ["params", "query", "session"])
+
 
 async def create_context(request):
-    session = await aiohttp_session.get_session(request)
-    return Context({
-        "params": await request.post(),
-        "query": request.GET,
-        "session": session,
-    })
+    return Context(
+        params=request.post(),
+        query=request.GET,
+        session=aiohttp_session.get_session(request))
