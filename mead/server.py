@@ -5,9 +5,12 @@ import aiohttp_session
 import aiohttp_session.cookie_storage
 
 
+DEFAULT_ENCRYPT_KEY = b"                                "
+
+
 class Mead():
 
-    def __init__(self, router=None, session_encrypt_key=b"                                "):
+    def __init__(self, router=None, session_encrypt_key=DEFAULT_ENCRYPT_KEY):
         self.app = aiohttp.web.Application()
         self.router = router
         self.session_encrypt_key = session_encrypt_key

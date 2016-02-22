@@ -12,7 +12,7 @@ class ResponsableObject(abc.ABC):
 
 
 class JSONObject(dict, ResponsableObject):
-    
+
     def to_response(self):
         resp = aiohttp.web.Response()
         resp.body = ujson.dumps(self).encode("utf8")
@@ -27,5 +27,3 @@ class HTMLString(str, ResponsableObject):
         resp.body = self.encode("utf8")
         resp.content_type = "text/html"
         return resp
-
-
