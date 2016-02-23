@@ -20,7 +20,7 @@ if __name__ == '__main__':
 
 ## Example: Greeting
 
-```
+```python
 from mead import Mead, response, Router
 from mead.objects import JSONObject
 
