@@ -8,7 +8,7 @@ import aiohttp_session.cookie_storage
 DEFAULT_ENCRYPT_KEY = b"                                "
 
 
-class Mead():
+class Mead:
 
     def __init__(self, router=None, app=None, session_encrypt_key=DEFAULT_ENCRYPT_KEY, loop=None):
         self._app = app or aiohttp.web.Application()
