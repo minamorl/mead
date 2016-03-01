@@ -25,7 +25,7 @@ class Tox(TestCommand):
 
 setup(
     name="mead",
-    version="0.0.12",
+    version="0.0.11",
     packages=find_packages(),
     install_requires = [
         "redis",
